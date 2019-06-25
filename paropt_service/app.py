@@ -146,9 +146,9 @@ def setupAWS():
         command_template_string=command_template_string,
         compute=EC2Compute(
             type='ec2',
-            instance_model="c5.large", # using c5 b/c previously had trouble with t2 spot instances
-            instance_family="c5",
-            ami="ami-078018a195b149801" # parsl base ami - preinstalled apt packages
+            instance_model="c4.large", # using c5 b/c previously had trouble with t2 spot instances
+            instance_family="c4",
+            ami="ami-0257427d05c8c18ac" # parsl base ami - preinstalled apt packages
         )
     )
 
