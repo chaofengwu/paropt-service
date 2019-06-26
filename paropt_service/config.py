@@ -29,10 +29,10 @@ def getAWSConfig():
         cores_per_worker=1,
         max_workers=1,
         provider=AWSProvider(
-          image_id='ami-073e3f122e47832bf', # image with bio tools installed 
-          worker_init='pip3 install git+https://git@github.com/macintoshpie/paropt',
+          image_id='ami-0257427d05c8c18ac', # image with bio tools installed 
+          worker_init='pip3 install git+https://git@github.com/chaofengwu/paropt',
           region='us-east-2',
-          key_name='testKeyPair',
+          key_name='aws_test',
           state_file='/etc/awsproviderstate.json',
           nodes_per_block=1,
           init_blocks=1,
