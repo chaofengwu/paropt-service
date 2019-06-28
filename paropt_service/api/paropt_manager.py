@@ -43,9 +43,12 @@ def getOptimizer(optimizer_config):
     try:
       n_init = int(n_init)
       n_iter = int(n_iter)
-      alpha = optimizer_config.get('alpha')
-      alpha = float(alpha)
-      return BayesianOptimizer(n_init=n_init, n_iter=n_iter, alpha=alpha)
+      if 'alpha' in optimizer_config.keys():
+        alpha = optimizer_config.get('alpha')
+        alpha = float(alpha)
+        return BayesianOptimizer(n_init=n_init, n_iter=n_iter, alpha=alpha)
+      else:
+        return BayesianOptimizer(n_init=n_init, n_iter=n_iter)
     except:
       return None
   elif optimizer_type == 'grid':
