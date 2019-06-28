@@ -38,7 +38,7 @@ def getAWSConfig():
           init_blocks=1,
           max_blocks=1,
           min_blocks=0,
-          walltime='01:00:00',
+          walltime='24:00:00',
         ),
       )
     ],
