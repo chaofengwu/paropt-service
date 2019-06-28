@@ -40,14 +40,19 @@ def getOptimizer(optimizer_config):
   if optimizer_type == 'bayesopt':
     n_init = optimizer_config.get('n_init')
     n_iter = optimizer_config.get('n_iter')
+    a = 0
     try:
       n_init = int(n_init)
+      a = 1
       n_iter = int(n_iter)
+      a = 2
       aplha = optimizer_config.get('alpha')
+      a = 3
       alpha = float(alpha)
+      a = 4
       return BayesianOptimizer(n_init=n_init, n_iter=n_iter, alpha=alpha)
     except:
-      return None
+      return [None, a]
   elif optimizer_type == 'grid':
     num_configs_per_param = optimizer_config.get('num_configs_per_param')
     try:
@@ -100,9 +105,9 @@ class ParoptManager():
       return {'status': 'failed', 'message': "Experiment not found with id {}".format(id)}
     
     optimizer = getOptimizer(run_config.get('optimizer'))
-    if optimizer == None:
+    if optimizer[0] == None:
       tmp = run_config.get('optimizer')
-      return {'status': 'failed', 'message': f'Invalid run configuration provided {tmp}'}
+      return {'status': 'failed', 'message': f'Invalid run configuration provided {tmp}, code: {optimizer[1]}'}
     
     # submit job to redis
     with Connection(redis.from_url(current_app.config['REDIS_URL'])):
