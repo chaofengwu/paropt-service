@@ -40,19 +40,14 @@ def getOptimizer(optimizer_config):
   if optimizer_type == 'bayesopt':
     n_init = optimizer_config.get('n_init')
     n_iter = optimizer_config.get('n_iter')
-    a = 0
     try:
       n_init = int(n_init)
-      a = 1
       n_iter = int(n_iter)
-      a = 2
-      aplha = optimizer_config.get('alpha')
-      a = 3
+      alpha = optimizer_config.get('alpha')
       alpha = float(alpha)
-      a = 4
       return BayesianOptimizer(n_init=n_init, n_iter=n_iter, alpha=alpha)
     except:
-      return [None, a]
+      return None
   elif optimizer_type == 'grid':
     num_configs_per_param = optimizer_config.get('num_configs_per_param')
     try:
