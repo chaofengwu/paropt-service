@@ -100,7 +100,7 @@ class ParoptManager():
       return {'status': 'failed', 'message': "Experiment not found with id {}".format(id)}
     
     optimizer = getOptimizer(run_config.get('optimizer'))
-    if optimizer[0] == None:
+    if optimizer == None:
       tmp = run_config.get('optimizer')
       return {'status': 'failed', 'message': f'Invalid run configuration provided {tmp}, code: {optimizer[1]}'}
     
