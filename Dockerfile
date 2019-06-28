@@ -17,7 +17,7 @@ ENV PATH="/root/miniconda/bin:$PATH"
 RUN conda create --name paroptservice_py367 python=3.6.7 --yes
 COPY ./requirements.txt ./app/
 WORKDIR ./app
-RUN source activate paroptservice_py367 && pip install -r requirements.txt
+RUN source activate paroptservice_py367 && pip install --no-cache-dir -r requirements.txt
 
 COPY ./ ./app
 WORKDIR ./app
