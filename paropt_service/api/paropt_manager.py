@@ -19,7 +19,7 @@ import paropt
 from paropt.runner import ParslRunner
 from paropt.storage import LocalFile, RelationalDB
 from paropt.optimizer import BayesianOptimizer, GridSearch
-from paropt.runner.parsl import timeCommand
+from paropt.runner.parsl import timeCmd
 from paropt.storage.entities import Parameter, Experiment, EC2Compute, LocalCompute
 
 def getOptimizer(optimizer_config):
@@ -322,7 +322,7 @@ class ParoptManager():
     )
 
     po = ParslRunner(
-      parsl_app=timeCommand,
+      parsl_app=timeCmd,
       optimizer=optimizer,
       storage=storage,
       experiment=experiment,
