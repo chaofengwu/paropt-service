@@ -47,7 +47,7 @@ def getOptimizer(optimizer_config):
         alpha = optimizer_config.get('alpha')
         alpha = float(alpha)
         if 'kappa' in optimizer_config.keys():
-          kappa = optimizer_config.get('kappa')`
+          kappa = optimizer_config.get('kappa')
           kappa = float(kappa)
           return BayesianOptimizer(n_init=n_init, n_iter=n_iter, alpha=alpha, kappa=kappa)
         else:
