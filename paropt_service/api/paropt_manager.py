@@ -18,7 +18,7 @@ import parsl
 import paropt
 from paropt.runner import ParslRunner
 from paropt.storage import LocalFile, RelationalDB
-from paropt.optimizer import BayesianOptimizer, GridSearch
+from paropt.optimizer import BayesianOptimizer, GridSearch, RandomSearch, CoordinateSearch, DFSSearch
 from paropt.runner.parsl import *
 from paropt.storage.entities import Parameter, Experiment, EC2Compute, LocalCompute
 
