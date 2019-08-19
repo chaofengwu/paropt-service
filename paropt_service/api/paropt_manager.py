@@ -23,6 +23,7 @@ from paropt.runner.parsl import *
 from paropt.storage.entities import Parameter, Experiment, EC2Compute, LocalCompute
 
 def getOptimizer(optimizer_config):
+  #TODO: add support to more optimizer
   """Construct optimizer from a config dict
   
   Args:
