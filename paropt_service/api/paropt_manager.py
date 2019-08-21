@@ -18,7 +18,7 @@ import parsl
 import paropt
 from paropt.runner import ParslRunner
 from paropt.storage import LocalFile, RelationalDB
-from paropt.optimizer import BayesianOptimizer, GridSearch
+from paropt.optimizer import BayesianOptimizer, GridSearch, RandomSearch, CoordinateSearch, DFSSearch
 from paropt.runner.parsl import *
 from paropt.storage.entities import Parameter, Experiment, EC2Compute, LocalCompute
 
@@ -57,6 +57,13 @@ def getOptimizer(optimizer_config):
       # num_configs_per_param = int(num_configs_per_param)
       num_configs_per_param = list(num_configs_per_param)
       return GridSearch(num_configs_per_param=num_configs_per_param)
+    except:
+      return None
+  elif optimizer_type == 'random':
+    n_iter = optimizer_config.get('n_iter')
+    try:
+      n_iter = int(n_iter)
+      return RandomSearch(n_iter=n_iter)
     except:
       return None
 
