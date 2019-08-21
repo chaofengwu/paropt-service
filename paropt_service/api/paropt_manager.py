@@ -65,6 +65,13 @@ def getOptimizer(optimizer_config):
       return GridSearch(num_configs_per_param=num_configs_per_param)
     except:
       return None
+  elif optimizer_type == 'random':
+    n_iter = optimizer_config.get('n_iter')
+    try:
+      n_iter = int(n_iter)
+      return RandomSearch(n_iter=n_iter)
+    except:
+      return None
 
 class ParoptManager():
   """Manages paropt tasks and storage records using Redis queue and paropt storage"""
