@@ -72,6 +72,13 @@ def getOptimizer(optimizer_config):
       return RandomSearch(n_iter=n_iter)
     except:
       return None
+  elif optimizer_type =='coordinate':
+    n_iter = optimizer_config.get('n_iter')
+    try:
+      n_iter = int(n_iter)
+      return CoordinateSearch(n_iter=n_iter)
+    except:
+      return None
 
 class ParoptManager():
   """Manages paropt tasks and storage records using Redis queue and paropt storage"""
