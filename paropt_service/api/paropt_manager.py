@@ -22,6 +22,14 @@ from paropt.optimizer import BayesianOptimizer, GridSearch, RandomSearch, Coordi
 from paropt.runner.parsl import *
 from paropt.storage.entities import Parameter, Experiment, EC2Compute, LocalCompute
 
+
+def get_from_dic(config, key):
+  if key in config.keys():
+    return config.get(key)
+  else:
+    return None
+
+
 def getOptimizer(optimizer_config):
   #TODO: add support to more optimizer
   """Construct optimizer from a config dict
@@ -38,26 +46,7 @@ def getOptimizer(optimizer_config):
       n_iter=2
     )
   optimizer_type = optimizer_config.get('type')
-  if optimizer_type == 'bayesopt':
-    n_init = optimizer_config.get('n_init')
-    n_iter = optimizer_config.get('n_iter')
-    try:
-      n_init = int(n_init)
-      n_iter = int(n_iter)
-      if 'alpha' in optimizer_config.keys():
-        alpha = optimizer_config.get('alpha')
-        alpha = float(alpha)
-        if 'kappa' in optimizer_config.keys():
-          kappa = optimizer_config.get('kappa')
-          kappa = float(kappa)
-          return BayesianOptimizer(n_init=n_init, n_iter=n_iter, alpha=alpha, kappa=kappa)
-        else:
-          return BayesianOptimizer(n_init=n_init, n_iter=n_iter, alpha=alpha)
-      else:
-        return BayesianOptimizer(n_init=n_init, n_iter=n_iter)
-    except:
-      return None
-  elif optimizer_type == 'grid':
+  if optimizer_type == 'grid':
     num_configs_per_param = optimizer_config.get('num_configs_per_param')
     try:
       # num_configs_per_param = int(num_configs_per_param)
@@ -65,18 +54,68 @@ def getOptimizer(optimizer_config):
       return GridSearch(num_configs_per_param=num_configs_per_param)
     except:
       return None
-  elif optimizer_type == 'random':
-    n_iter = optimizer_config.get('n_iter')
+
+  
+  n_iter = get_from_dic(optimizer_config, 'n_iter')
+  budget = get_from_dic(optimizer_config, 'budget')
+  converge_thres = get_from_dic(optimizer_config, 'converge_thres')
+  converge_steps = get_from_dic(optimizer_config, 'converge_steps')
+  # n_iter = optimizer_config.get('n_iter')
+  if n_iter is not None:
+    n_iter = int(n_iter)
+  if budget is not None:
+    budget = float(budget)
+  if converge_thres is not None:
+    converge_thres = float(converge_thres)
+  if converge_steps is not None:
+    converge_steps = int(converge_steps)
+
+  if optimizer_type == 'bayesopt':
+    n_init = get_from_dic(optimizer_config, 'n_init')
+    alpha = get_from_dic(optimizer_config, 'alpha')
+    kappa = get_from_dic(optimizer_config, 'kappa')
+    if n_init is not None:
+      n_init = int(n_init)
+    if alpha is not None:
+      alpha = float(alpha)
+    if kappa is not None:
+      kappa = float(kappa)
     try:
-      n_iter = int(n_iter)
-      return RandomSearch(n_iter=n_iter)
+      return BayesianOptimizer(n_init=n_init, n_iter=n_iter, alpha=alpha, kappa=kappa, 
+        budget=budget, converge_thres=converge_thres, converge_steps=converge_steps)
+    except:
+      return None
+    # try:
+    #   # n_iter = int(n_iter)
+    #   if 'alpha' in optimizer_config.keys():
+    #     alpha = optimizer_config.get('alpha')
+    #     alpha = float(alpha)
+    #     if 'kappa' in optimizer_config.keys():
+    #       kappa = optimizer_config.get('kappa')
+    #       kappa = float(kappa)
+    #       return BayesianOptimizer(n_init=n_init, n_iter=n_iter, alpha=alpha, kappa=kappa)
+    #     else:
+    #       return BayesianOptimizer(n_init=n_init, n_iter=n_iter, alpha=alpha)
+    #   else:
+    #     return BayesianOptimizer(n_init=n_init, n_iter=n_iter)
+    # except:
+    #   return None
+  elif optimizer_type == 'random':
+    random_seed = get_from_dic(optimizer_config, 'random_seed')
+    if random_seed is not None:
+      random_seed = int(random_seed)
+    try:
+      return RandomSearch(n_iter=n_iter, random_seed=random_seed,
+        budget=budget, converge_thres=converge_thres, converge_steps=converge_steps)
     except:
       return None
   elif optimizer_type =='coordinate':
-    n_iter = optimizer_config.get('n_iter')
+    random_seed = get_from_dic(optimizer_config, 'random_seed')
+    if random_seed is not None:
+      random_seed = int(random_seed)
     try:
-      n_iter = int(n_iter)
-      return CoordinateSearch(n_iter=n_iter)
+      return CoordinateSearch(n_iter=n_iter, random_seed=random_seed,
+        budget=budget, converge_thres=converge_thres, converge_steps=converge_steps)
     except:
       return None
 
